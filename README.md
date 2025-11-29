@@ -35,11 +35,17 @@ Saída esperada:
 ```
 Conta criada: Conta{id=1, saldo=R$ 1000,00}
 
-Negativo bloqueado: Valor do depósito deve ser maior que zero. Tentativa: R$ -5000,00
+Testando depósito com valor negativo...
+Depósito recusado → Valor do depósito deve ser maior que zero. Tentativa: R$ -5000,00
 
-Depósito válido → Conta{id=1, saldo=R$ 1500,75}
-Saque bloqueado: Saldo insuficiente. Saldo atual: R$ 1500,75 | Tentativa de saque: R$ 5000,00
-Saque válido → Conta{id=1, saldo=R$ 1200,75}
+Testando depósito válido...
+Depósito aceito → Conta{id=1, saldo=R$ 1500,00}
+
+Testando saque com saldo insuficiente...
+Saque bloqueado: Saldo insuficiente. Saldo atual: R$ 1500,00 | Tentativa de saque: R$ 5000,00
+
+Testando saque válido...
+Saque aceito → Conta{id=1, saldo=R$ 1200,00}
 ```
 
 ## Tecnologias
