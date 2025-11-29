@@ -80,8 +80,9 @@ Projeto 100% pronto para evoluir para:
 - Testes com JUnit 
 - API REST
 
-Feito com carinho por\ 
+Feito com carinho por  
 **Matheus H. S. Trindade**\
-https://github.com/matheushstrindade \
+https://github.com/matheushstrindade
+
 Sinta-se à vontade para dar star, fork, usar como base nos seus estudos ou até no seu TCC/portfólio!
 Qualquer dúvida, é só chamar
