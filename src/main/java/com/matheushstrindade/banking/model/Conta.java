@@ -36,7 +36,7 @@ public class Conta {
 
     public Cliente getTitular() { return titular; }
 
-    // Setter privado (só o Cliente pode definir o titular)
+    // Setters
     void setTitular(Cliente titular) {
         this.titular = titular;
     }
