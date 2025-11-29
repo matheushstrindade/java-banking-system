@@ -1,4 +1,4 @@
-# Java Banking System
+# Banking System
 
 Sistema bancário simples e extremamente bem escrito em Java, usando as melhores práticas de 2025:
 
