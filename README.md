@@ -32,10 +32,13 @@ src/main/java/com/matheushstrindade/banking/
 │   ├─ Cliente.java     → validação oficial de CPF + relacionamento
 │   ├─ Conta.java       → extrato imutável + operações seguras
 │   └─ Transacao.java   → imutável, enum, valor sinalizado
-└─ App.java             → demonstração completa com saída profissional
+└─ app/
+   ├─ App.java              → demonstração automática (ideal para GitHub)
+   └─ BankingConsole.java   → console interativo completo (use o banco de verdade!)
 ```
 
 ## Como executar
+### 1. Demonstração automática (recomendado para ver rápido)
 ```bash
 # Compilar
 javac src/main/java/com/matheushstrindade/banking/*.java \
@@ -45,7 +48,12 @@ javac src/main/java/com/matheushstrindade/banking/*.java \
 java -cp src/main/java com.matheushstrindade.banking.app.App
 ```
 
-Saída esperada:
+### 2. Console interativo (use como cliente real!)
+```bash
+java -cp src/main/java com.matheushstrindade.banking.app.BankingConsole
+```
+
+### Saída da demonstração automática:
 ```
 Cliente criado: Matheus H. S. Trindade
 CPF: 529.982.247-25
