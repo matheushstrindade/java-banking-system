@@ -34,8 +34,7 @@ public class Cliente {
         this.dataNascimento = dataNascimento;
     }
 
-    // Getters
-
+    // === GETTERS ===
     public String getNome() { return nome; }
 
     public String getCpf() { return cpf; }
@@ -45,7 +44,6 @@ public class Cliente {
     public List<Conta> getContas() { return Collections.unmodifiableList(contas); }
 
     // === OPERAÇÕES ===
-
     public void adicionarConta(Conta conta) {
         if (conta == null) {
             throw new IllegalArgumentException("Conta não pode ser nula.");

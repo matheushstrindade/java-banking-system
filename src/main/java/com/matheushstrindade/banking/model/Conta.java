@@ -2,6 +2,9 @@ package com.matheushstrindade.banking.model;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 public class Conta {
@@ -9,14 +12,15 @@ public class Conta {
     private final Long id;
     private BigDecimal saldo;
     private Cliente titular;
+    private final List<Transacao> extrato = new ArrayList<>();
 
     public Conta(Cliente titular, BigDecimal saldoInicial) {
-        if (saldoInicial == null) {
-            throw new IllegalArgumentException("Saldo inicial não pode ser nulo.");
-        }
+        Objects.requireNonNull(titular, "Titular não pode ser nulo");
+        Objects.requireNonNull(saldoInicial, "Saldo inicial não pode ser nulo");
+
         if (saldoInicial.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException(
-                    "Saldo inicial não pode ser negativo. Valor informado: R$ " + formatarMoeda(saldoInicial)
+                    "Saldo inicial não pode ser negativo: R$ " + formatarMoeda(saldoInicial)
             );
         }
 
@@ -25,27 +29,25 @@ public class Conta {
         titular.adicionarConta(this);
     }
 
-    // Getters
-    public Long getId() {
-        return id;
-    }
-
-    public BigDecimal getSaldo() {
-        return saldo;
-    }
-
+    // === GETTERS ===
+    public Long getId() { return id; }
+    public BigDecimal getSaldo() { return saldo; }
     public Cliente getTitular() { return titular; }
 
-    // Setters
+    public List<Transacao> getExtrato() {
+        return Collections.unmodifiableList(extrato); // Imutável externamente
+    }
+
     void setTitular(Cliente titular) {
         this.titular = titular;
     }
 
-    // === OPERAÇÕES ===
-
+    // === OPERAÇÕES PÚBLICAS (ÚNICAS formas de mexer no saldo) ===
     public void depositar(BigDecimal valor) {
         validarValorPositivo(valor, "depósito");
-        this.saldo = this.saldo.add(valor.setScale(2, RoundingMode.HALF_EVEN));
+        Transacao transacao = Transacao.deposito(valor);
+        this.saldo = this.saldo.add(transacao.getValor());
+        this.extrato.add(transacao);
     }
 
     public void sacar(BigDecimal valor) {
@@ -56,23 +58,22 @@ public class Conta {
                             " | Tentativa de saque: R$ " + formatarMoeda(valor)
             );
         }
-        this.saldo = this.saldo.subtract(valor.setScale(2, RoundingMode.HALF_EVEN));
+        Transacao transacao = Transacao.saque(valor);
+        this.saldo = this.saldo.add(transacao.getValor()); // valor já é negativo!
+        this.extrato.add(transacao);
     }
 
     // === MÉTODOS AUXILIARES ===
-
     private void validarValorPositivo(BigDecimal valor, String operacao) {
-        Objects.requireNonNull(valor, "Valor do " + operacao + " não pode ser nulo.");
-
+        Objects.requireNonNull(valor, "Valor do " + operacao + " não pode ser nulo");
         if (valor.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException(
-                    "Valor do " + operacao + " deve ser maior que zero. Tentativa: R$ " + formatarMoeda(valor)
+                    "Valor do " + operacao + " deve ser maior que zero: R$ " + formatarMoeda(valor)
             );
         }
     }
 
     private String formatarMoeda(BigDecimal valor) {
-        if (valor == null) return "0,00";
         return valor.setScale(2, RoundingMode.HALF_EVEN)
                 .toPlainString()
                 .replace('.', ',');
@@ -80,6 +81,7 @@ public class Conta {
 
     @Override
     public String toString() {
-        return String.format("Conta{id=%d, saldo=R$ %s}", id, formatarMoeda(saldo));
+        return String.format("Conta{id=%d, saldo=R$ %s, transações=%d}",
+                id, formatarMoeda(saldo), extrato.size());
     }
 }
