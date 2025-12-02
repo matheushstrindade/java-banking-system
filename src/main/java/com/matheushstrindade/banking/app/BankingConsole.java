@@ -2,7 +2,6 @@ package com.matheushstrindade.banking.app;
 
 import com.matheushstrindade.banking.model.Cliente;
 import com.matheushstrindade.banking.model.Conta;
-import com.matheushstrindade.banking.model.Transacao;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
